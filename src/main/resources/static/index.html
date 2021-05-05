@@ -18,26 +18,38 @@
     <h1>April Market</h1>
     <table cellpadding="5px">
         <thead>
-
         <th>Id продукта</th>
         <th>Наименование продукта</th>
         <th>Цена продукта</th>
+        <th>Действия</th>
         </thead>
         <tbody>
         <tr ng-repeat="p in products">
             <td>{{p.id}}</td>
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="clickOnProduct(p)">Console info??</button>
+                <button class="btn btn-danger" ng-click="pingProduct(p.id)">Ping</button>
+            </td>
         </tr>
         </tbody>
     </table>
-    <div>
-<!--        <h5 >-->
-<!--            {{p.id + ' ' + p.title + ' ' + p.price}}-->
-<!--        </h5>-->
-    </div>
-
     <button class="btn btn-primary" ng-click="init()">Refresh</button>
+<br><br>
+    <div>
+        <form novalidate ng-submit="createNewProduct()">
+            <div class="mb-3">
+                <label class="inputTitle" class="form-label">Title</label>
+                <input type="text" class="form-control" ng-model="newProduct.title" id="inputTitle" aria-describedby="titleHelp">
+            </div>
+            <div class="mb-3">
+                <label for="inputPrice" class="form-label">Price</label>
+                <input type="number" class="form-control" ng-model="newProduct.price"  id="inputPrice" aria-describedby="titleHelp">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>
