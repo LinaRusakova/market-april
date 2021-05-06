@@ -2,6 +2,10 @@ package ru.geekbrains.spring.boot.april.market.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.geekbrains.spring.boot.april.market.dtos.ProductDto;
+import ru.geekbrains.spring.boot.april.market.error_handling.ResourceNotFoundException;
+import ru.geekbrains.spring.boot.april.market.models.Category;
 import ru.geekbrains.spring.boot.april.market.models.Product;
 import ru.geekbrains.spring.boot.april.market.repositories.ProductRepository;
 
@@ -12,6 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
 
 
     public List<Product> findAll() {
@@ -36,7 +41,15 @@ public class ProductService {
         return productRepository.findById(id).isEmpty() ? true : false;
     }
 
-    public Product save(Product product) {
-        return productRepository.save(product);
+    @Transactional
+    public ProductDto createNewProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setPrice(productDto.getPrice());
+        product.setTitle(productDto.getTitle());
+        Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() ->
+                new ResourceNotFoundException("Category doesn't exist with id = " + productDto.getCategoryTitle()));
+        product.setCategory(category);
+        productRepository.save(product);
+        return new ProductDto(product);
     }
 }

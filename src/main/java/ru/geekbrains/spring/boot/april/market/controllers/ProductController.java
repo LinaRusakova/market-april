@@ -1,52 +1,43 @@
 package ru.geekbrains.spring.boot.april.market.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.geekbrains.spring.boot.april.market.error_handling.MarketError;
+import ru.geekbrains.spring.boot.april.market.dtos.ProductDto;
 import ru.geekbrains.spring.boot.april.market.error_handling.ResourceNotFoundException;
 import ru.geekbrains.spring.boot.april.market.models.Product;
+import ru.geekbrains.spring.boot.april.market.services.CategoryService;
 import ru.geekbrains.spring.boot.april.market.services.ProductService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
 @AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final CategoryService categoryService;
 
     @GetMapping()
-    public List<Product> getAllProducts() {
-        return productService.findAll();
+    public List<ProductDto> getAllProducts() {
+        return productService.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-
-        return productService.findProductByID(id).orElseThrow(() ->
+//    public Product getProductById(@PathVariable Long id) {
+    public ProductDto getProductById(@PathVariable Long id) {
+        Product product = productService.findProductByID(id).orElseThrow(() ->
                 new ResourceNotFoundException("Product doesn't exist with id = " + id));
+
+        return new ProductDto(product);
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewProduct(@RequestBody Product product) {
-        List<String> errors = new ArrayList<>();
-        if (product.getTitle().length() < 3) {
-            errors.add("Too short title");
-        }
-        if (product.getPrice() < 1) {
-            errors.add("Invalid product price");
-        }
+    public ProductDto createNewProduct(@RequestBody ProductDto productDto) {
+        return productService.createNewProduct(productDto);
 
-        if (errors.size() > 0) {
-            return new ResponseEntity<>(new MarketError(HttpStatus.BAD_REQUEST.value(), errors), HttpStatus.BAD_REQUEST);
-        }
-        Product out = productService.save(product);
-        return new ResponseEntity<>(out, HttpStatus.CREATED);
     }
-
+//
     @PutMapping()
     public Product putProductById(@RequestBody Product product) {
         return productService.putProduct(product);
