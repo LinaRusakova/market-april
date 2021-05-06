@@ -27,15 +27,19 @@ public class CartController {
     }
 
     @GetMapping("/add")
-    public void add(@RequestParam Long id) {
-        cart.addItem(productService.findProductByID(id).get());
+    public int add(@RequestParam Long id) {
         log.info("add to cart product with id=" + id);
+        return cart.addItem(productService.findProductByID(id).get());
     }
 
     @GetMapping("/delete")
-    public void deleteProductFromCart(@RequestParam Long id) {
-        cart.deleteItem(id);
+    public int deleteProductFromCart(@RequestParam Long id) {
         log.info("delete from cart product with id=" + id);
+        return cart.deleteItem(id);
     }
 
+    @GetMapping("/summ")
+    public int summCart() {
+        return cart.sumItems();
+    }
 }

@@ -2,7 +2,6 @@ package ru.geekbrains.spring.boot.april.market.utils;
 
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.spring.boot.april.market.models.Product;
 
@@ -18,17 +17,27 @@ public class Cart {
         return items;
     }
 
-    public void addItem(Product item) {
+    public int addItem(Product item) {
         this.items.add(item);
+        return sumItems();
     }
 
-    public void deleteItem(Long item) {
+    public int deleteItem(Long item) {
         for (Product product : items) {
             if (product.getId().equals(item)) {
                 items.remove(product);
                 break;
             }
         }
+        return sumItems();
+    }
+
+    public int sumItems() {
+        int result = 0;
+        for (Product product : items) {
+            result += product.getPrice();
+        }
+        return result;
     }
 
     private List<Product> items;

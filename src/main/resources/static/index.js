@@ -1,13 +1,15 @@
 angular.module('app', []).controller('productController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/market';
-
+    $scope.itemsSum = 0;
     $scope.init = function () {
         $http.get(contextPath + '/api/v1/products')
             .then(function (response) {
                 $scope.products = response.data;
                 $scope.cartShow();
+
             });
     };
+
 
     $scope.createNewProduct = function () {
         console.log($scope.newProduct);
@@ -24,26 +26,22 @@ angular.module('app', []).controller('productController', function ($scope, $htt
         console.log(product);
     }
 
-    $scope.pingProduct = function (productId) {
-        $http({
-            url: contextPath + "/api/v1/cart/ping",
-            method: "GET",
-            params: {
-                id: productId
-            }
-        }).then(function (response) {
-            console.log("OK");
-        })
-    }
 
     /*
     * Cart functions
     * */
 
+    $scope.sumItems = function () {
+        $http.get(contextPath + '/api/v1/cart/summ')
+            .then(function (response) {
+                $scope.itemsSum = response.data;
+            });
+    };
     $scope.cartShow = function () {
         $http.get(contextPath + '/api/v1/cart')
             .then(function (response) {
                 $scope.cart = response.data;
+                $scope.sumItems();
             });
     }
 
@@ -56,6 +54,7 @@ angular.module('app', []).controller('productController', function ($scope, $htt
             }
         }).then(function (response) {
             $scope.cartShow();
+            $scope.itemsSum = response.data;
             console.log("OK");
         })
 
@@ -69,6 +68,7 @@ angular.module('app', []).controller('productController', function ($scope, $htt
                 id: idProduct
             }
         }).then(function (response) {
+            $scope.itemsSum = response.data;
             $scope.cartShow();
             console.log("OK");
         })

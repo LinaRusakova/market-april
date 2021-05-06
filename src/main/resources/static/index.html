@@ -72,6 +72,10 @@
                 <button class="btn btn-danger" ng-click="deleteItem(i.id)">Delete product</button>
             </td>
         </tr>
+        <tr>
+            <td colspan="3"><b>Общая стоимость продуктов в корзине</b></td>
+            <td><b>{{itemsSum}}</b></td>
+        </tr>
         </tbody>
     </table>
     <button class="btn btn-primary" ng-click="cartShow()">Refresh</button>
