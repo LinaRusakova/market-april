@@ -15,6 +15,7 @@ public class MarketError {
         this.messages = new ArrayList<>(Arrays.asList(messages));
         this.timestamp = new Date();
     }
+
     public MarketError(int status, Collection<String> messages) {
         this.status = status;
         this.messages = new ArrayList<>(messages);

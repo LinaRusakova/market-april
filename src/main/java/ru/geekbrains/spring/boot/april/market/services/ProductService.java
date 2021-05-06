@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.geekbrains.spring.boot.april.market.models.Product;
 import ru.geekbrains.spring.boot.april.market.repositories.ProductRepository;
 
-import javax.persistence.Entity;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +12,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+
 
     public List<Product> findAll() {
         return productRepository.findAll();

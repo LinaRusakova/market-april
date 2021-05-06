@@ -11,7 +11,6 @@ import ru.geekbrains.spring.boot.april.market.services.ProductService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/products")

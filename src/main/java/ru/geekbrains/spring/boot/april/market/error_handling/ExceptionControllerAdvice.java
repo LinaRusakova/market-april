@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionControllerAdvice {
     @ExceptionHandler
     public ResponseEntity<?> handlerResourceNotFoundException(ResourceNotFoundException e) {
-        MarketError error = new MarketError((HttpStatus.NOT_FOUND.value()),e.getMessage());
-        return  new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        MarketError error = new MarketError((HttpStatus.NOT_FOUND.value()), e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }
