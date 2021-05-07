@@ -3,6 +3,7 @@ package ru.geekbrains.spring.boot.april.market.utils;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.geekbrains.spring.boot.april.market.dtos.ProductDto;
 import ru.geekbrains.spring.boot.april.market.models.Product;
 
 import javax.annotation.PostConstruct;

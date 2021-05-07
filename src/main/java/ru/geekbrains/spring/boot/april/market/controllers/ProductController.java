@@ -1,13 +1,19 @@
 package ru.geekbrains.spring.boot.april.market.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.spring.boot.april.market.dtos.ProductDto;
+import ru.geekbrains.spring.boot.april.market.error_handling.InvalidDataException;
 import ru.geekbrains.spring.boot.april.market.error_handling.ResourceNotFoundException;
 import ru.geekbrains.spring.boot.april.market.models.Product;
 import ru.geekbrains.spring.boot.april.market.services.CategoryService;
 import ru.geekbrains.spring.boot.april.market.services.ProductService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,14 +39,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductDto createNewProduct(@RequestBody ProductDto productDto) {
+    public ProductDto createNewProduct(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidDataException(bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
+        }
         return productService.createNewProduct(productDto);
 
     }
-//
+
+    //
     @PutMapping()
-    public Product putProductById(@RequestBody Product product) {
-        return productService.putProduct(product);
+    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
+        return productService.updateProduct(productDto);
     }
 
     @DeleteMapping("/{id}")

@@ -27,16 +27,19 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public Product putProduct(Product product) {
-        Product product1 = findProductByID(product.getId()).get();
-        product1.setPrice(product.getPrice());
-        product1.setTitle(product.getTitle());
-        return productRepository.save(product1);
+    @Transactional
+    public ProductDto updateProduct(ProductDto productDto) {
+        Product product = findProductByID(productDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exist with id = " + productDto.getId() + " (Process: update product.)"));
+        product.setPrice(productDto.getPrice());
+        product.setTitle(productDto.getTitle());
+        Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() ->
+                new ResourceNotFoundException("Category doesn't exist product.CategoryTitle = " + productDto.getCategoryTitle() + " (Process: update product.)"));
+        product.setCategory(category);
+        return new ProductDto(product);
     }
 
 
     public boolean deleteProductByID(Long id) {
-
         productRepository.delete(findProductByID(id).get());
         return productRepository.findById(id).isEmpty() ? true : false;
     }
@@ -47,7 +50,7 @@ public class ProductService {
         product.setPrice(productDto.getPrice());
         product.setTitle(productDto.getTitle());
         Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() ->
-                new ResourceNotFoundException("Category doesn't exist with id = " + productDto.getCategoryTitle()));
+                new ResourceNotFoundException("Category doesn't exist product.CategoryTitle = " + productDto.getCategoryTitle() + " (Process: create new product.)"));
         product.setCategory(category);
         productRepository.save(product);
         return new ProductDto(product);
