@@ -25,7 +25,7 @@
         <th>Действия</th>
         </thead>
         <tbody>
-        <tr ng-repeat="p in products">
+        <tr ng-repeat="p in productsPage.content">
             <td>{{p.id}}</td>
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
@@ -37,7 +37,25 @@
         </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary" ng-click="init()">Refresh</button>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" ng-click="loadPage(productsPage.number)">Пред.</a>
+            </li>
+
+            <li ng-class="productsPage.number == pageIndex - 1 ? 'page-item active' : 'page-item'"
+                ng-repeat="pageIndex in paginationArray">
+                <a class="page-link" ng-click="loadPage(pageIndex)">{{pageIndex}}</a>
+            </li>
+
+            <li ng-class="productsPage.last ? 'page-item disabled' : 'page-item'">
+                <a class="page-link" ng-click="loadPage(productsPage.number + 2)">След.</a>
+            </li>
+        </ul>
+    </nav>
+
+    <button class="btn btn-primary" ng-click="loadPage(1)">Refresh</button>
     <br><br>
 
         <form novalidate ng-submit="createNewProduct()">
@@ -51,13 +69,13 @@
                 <input type="number" class="form-control" ng-model="newProduct.price" id="inputPrice"
                        aria-describedby="titleHelp">
             </div>
-            <div class="mb-3">
+<!--            <div class="mb-3">-->
                 <label for="inputCategory" class="form-label">Choose Category</label>
                 <select class="form-select" ng-model="newProduct.categoryTitle" id="inputCategory"  aria-label="Default select example">
                     <option value="Food">Food</option>
 
                 </select>
-            </div>
+<!--            </div>-->
 
             <br><br>
             <button type="submit" class="btn btn-primary">Submit</button>

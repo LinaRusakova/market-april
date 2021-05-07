@@ -1,6 +1,8 @@
 package ru.geekbrains.spring.boot.april.market.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +27,10 @@ public class ProductController {
     private final CategoryService categoryService;
 
     @GetMapping()
-    public List<ProductDto> getAllProducts() {
-        return productService.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
+    public Page<ProductDto> getAllProducts(@RequestParam(name="p", defaultValue = "1") int page) {
+        Page<Product> productsPage= productService.findPage(page-1, 10);
+        Page<ProductDto> dtoPage = new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());
+        return dtoPage;
     }
 
     @GetMapping("/{id}")

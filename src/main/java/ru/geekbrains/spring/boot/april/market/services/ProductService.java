@@ -1,6 +1,8 @@
 package ru.geekbrains.spring.boot.april.market.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.spring.boot.april.market.dtos.ProductDto;
@@ -19,8 +21,8 @@ public class ProductService {
     private final CategoryService categoryService;
 
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public Page<Product> findPage(int page, int pageSize) {
+        return productRepository.findAllBy(PageRequest.of(page, pageSize));
     }
 
     public Optional<Product> findProductByID(Long id) {
