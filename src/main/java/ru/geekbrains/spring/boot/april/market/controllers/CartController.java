@@ -2,10 +2,7 @@ package ru.geekbrains.spring.boot.april.market.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.spring.boot.april.market.dtos.CartDto;
 import ru.geekbrains.spring.boot.april.market.dtos.ProductDto;
 import ru.geekbrains.spring.boot.april.market.models.Product;
@@ -26,9 +23,8 @@ public class CartController {
 
 
     @GetMapping()
-    public List<ProductDto> getCartDto() {
-        CartDto cartDto=new CartDto(cart);
-        return cartDto.getCartDtoItems();
+    public CartDto getCart() {
+        return  new CartDto(cart);
     }
 
     @GetMapping("/add")
@@ -36,6 +32,13 @@ public class CartController {
         log.info("add to cart product with id=" + id);
         return cart.addItem(productService.findProductByID(id).get());
     }
+
+    @GetMapping("/add/{productId}")
+    public void addToCart(@PathVariable(name = "productId") Long id) {
+       cart.addToCart(id);
+    }
+
+
 
     @GetMapping("/delete")
     public int deleteProductFromCart(@RequestParam Long id) {

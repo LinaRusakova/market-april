@@ -64,15 +64,14 @@ angular.module('app', []).controller('productController', function ($scope, $htt
                 $scope.itemsSum = response.data;
             });
     };
-    $scope.cartShow = function () {
+    $scope.loadCart = function () {
         $http.get(contextPath + '/api/v1/cart')
             .then(function (response) {
-                $scope.cart = response.data;
-                $scope.sumItems();
+                $scope.cartDto = response.data;
             });
     }
 
-    $scope.addProduct = function (productId) {
+    $scope.addToCart = function (productId) {
         $http({
             url: contextPath + "/api/v1/cart/add",
             method: "GET",
@@ -80,9 +79,7 @@ angular.module('app', []).controller('productController', function ($scope, $htt
                 id: productId
             }
         }).then(function (response) {
-            $scope.cartShow();
-            $scope.itemsSum = response.data;
-            console.log("OK");
+            $scope.loadCart();
         })
 
     }

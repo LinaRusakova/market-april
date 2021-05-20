@@ -14,14 +14,13 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class CartDto {
 
-    private List<ProductDto> cartDtoItems;
+    private List<ProductDto> items;
+    private int sum;
 
     public CartDto(Cart cart) {
-        this.cartDtoItems = cart.getItems().stream().map(ProductDto::new).collect(Collectors.toList());
+        this.items = cart.getItems().stream().map(ProductDto::new).collect(Collectors.toList());
+        this.sum = cart.getSum();
     }
-    @PostConstruct
-    public void init() {
-        cartDtoItems = new ArrayList<>();
-    }
+
 
 }
