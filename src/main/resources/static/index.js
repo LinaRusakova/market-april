@@ -58,12 +58,6 @@ angular.module('app', []).controller('productController', function ($scope, $htt
     * Cart functions
     * */
 
-    $scope.sumItems = function () {
-        $http.get(contextPath + '/api/v1/cart/summ')
-            .then(function (response) {
-                $scope.itemsSum = response.data;
-            });
-    };
     $scope.loadCart = function () {
         $http.get(contextPath + '/api/v1/cart')
             .then(function (response) {
@@ -73,16 +67,22 @@ angular.module('app', []).controller('productController', function ($scope, $htt
 
     $scope.addToCart = function (productId) {
         $http({
-            url: contextPath + "/api/v1/cart/add",
-            method: "GET",
-            params: {
-                id: productId
-            }
+            url: contextPath + "/api/v1/cart/add/" + productId,
+            method: "GET"
         }).then(function (response) {
             $scope.loadCart();
         })
-
     }
+
+    $scope.clearCart = function () {
+        $http({
+            url: contextPath + "/api/v1/cart/clear",
+            method: "GET"
+        }).then(function (response) {
+            $scope.loadCart();
+        })
+    }
+
 
     $scope.deleteItem = function (idProduct) {
         $http({

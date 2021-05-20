@@ -102,12 +102,12 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3"><b>Общая стоимость продуктов в корзине</b></td>
-            <td><b>{{itemsSum}}</b></td>
+            <td colspan="3"><b>The total cost of the Cart</b></td>
+            <td><b>{{cartDto.sum}}</b></td>
         </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary" ng-click="cartShow()">Refresh</button>
+    <button class="btn btn-primary" ng-click="clearCart()">Clear Cart</button>
 </div>
 </body>
 </html>
