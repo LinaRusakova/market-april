@@ -38,6 +38,12 @@ public class CartController {
        cart.addToCart(id);
     }
 
+    @GetMapping("/quantity")
+    public void addToCart(@RequestParam String title, @RequestParam String incDec) {
+        cart.quantity(title, incDec);
+    }
+
+
     @GetMapping("/clear")
     public void clearCart() {
       cart.clear();

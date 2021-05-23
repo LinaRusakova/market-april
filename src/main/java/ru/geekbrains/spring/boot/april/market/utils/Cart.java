@@ -67,4 +67,21 @@ public class Cart {
     public void init() {
         items = new ArrayList<>();
     }
+
+    public void quantity(String title, String incDec) {
+
+        for (OrderItem orderItem : items) {
+            if (incDec.equals("+") && orderItem.getProduct().getTitle().equals(title)) {
+                orderItem.incrementQuantity();
+                recalculate();
+                return;
+
+            } else if (incDec.equals("-") && orderItem.getProduct().getTitle().equals(title)) {
+                if (orderItem.getQuantity() <= 1) return;
+                orderItem.decrementQuantity();
+                recalculate();
+                return;
+            }
+        }
+    }
 }

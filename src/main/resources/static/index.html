@@ -113,8 +113,14 @@
         <tr ng-repeat="oi in cartDto.items">
 
             <td>{{oi.productTitle}}</td>
-            <td>{{oi.quantity}}</td>
-            <td>{{oi.pricePerProduct + " x " + oi.quantity + " = " + oi.price + " руб. "}}</td>
+            <td>
+                <button class="btn btn-outline-primary" ng-click="incDec(oi.productTitle, '-')">-</button>
+                {{oi.quantity}}
+                <button class="btn btn-outline-primary" ng-click="incDec(oi.productTitle, '+')">+</button>
+            </td>
+            <td>
+                {{oi.pricePerProduct + " x " + oi.quantity + " = " + oi.price + " руб. "}}
+            </td>
 
             <td>
                 <button class="btn btn-danger" ng-click="deleteItem(oi.productTitle)">Удалить</button>
@@ -123,7 +129,7 @@
         <tr>
             <td><b>Итого</b></td>
             <td><b>{{cartDto.allItems}}</b></td>
-            <td ng-class="if cartDto.sum==null 'cartDto.sum=0'"><b>{{cartDto.sum + " руб. "}}</b></td>
+            <td ng-class="(cartDto.sum==null) ? cartDto.sum=0:''"><b>{{cartDto.sum + " руб. "}}</b></td>
         </tr>
         </tbody>
     </table>

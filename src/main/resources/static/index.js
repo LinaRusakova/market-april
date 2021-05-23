@@ -74,6 +74,19 @@ angular.module('app', []).controller('productController', function ($scope, $htt
         })
     }
 
+    $scope.incDec = function (title, value) {
+        $http({
+            url: contextPath + "/api/v1/cart/quantity",
+            method: "GET",
+            params: {
+                title: title,
+                incDec: value
+            }
+        }).then(function (response) {
+            $scope.loadCart();
+        })
+    }
+
     $scope.clearCart = function () {
         $http({
             url: contextPath + "/api/v1/cart/clear",

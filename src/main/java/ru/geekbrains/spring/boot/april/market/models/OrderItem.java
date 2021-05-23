@@ -54,4 +54,9 @@ public class OrderItem {
         this.price= this.pricePerProduct.multiply(new BigDecimal(this.quantity));
     }
 
+    public void decrementQuantity() {
+        this.quantity--;
+        this.price= this.pricePerProduct.multiply(new BigDecimal(this.quantity));
+    }
+
 }

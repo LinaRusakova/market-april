@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 public class OrderItemDto {
 
     private String productTitle;
+    @Min(value = 1, message = "Min quantity = 1")
     private int quantity;
     private BigDecimal pricePerProduct;
     private BigDecimal price;
