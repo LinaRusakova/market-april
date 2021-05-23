@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import ru.geekbrains.spring.boot.april.market.utils.Cart;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 public class CartDto {
 
     private List<ProductDto> items;
-    private int sum;
+    private BigDecimal sum;
 
     public CartDto(Cart cart) {
         this.items = cart.getItems().stream().map(ProductDto::new).collect(Collectors.toList());

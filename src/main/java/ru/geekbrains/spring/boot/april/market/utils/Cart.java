@@ -10,6 +10,7 @@ import ru.geekbrains.spring.boot.april.market.models.Product;
 import ru.geekbrains.spring.boot.april.market.services.ProductService;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 public class Cart {
     private final ProductService productService;
     private List<Product> items;
-    private int sum;
+    private BigDecimal sum;
 
     public void addToCart(Long id) {
         Product product = productService.findProductByID(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exist with id: " + id + ". An error occurred while executing the procedure: adding an item to the cart. "));
@@ -29,9 +30,9 @@ public class Cart {
     }
 
     private void recalculate() {
-        sum = 0;
+        sum = BigDecimal.ZERO;
         for (Product product : items) {
-            sum += product.getPrice();
+            sum = sum.add(product.getPrice());
         }
     }
 
@@ -46,29 +47,6 @@ public class Cart {
 
     public List<Product> getItems() {
         return Collections.unmodifiableList(items);
-    }
-
-    public int addItem(Product item) {
-        this.items.add(item);
-        return sumItems();
-    }
-
-    public int deleteItem(Long item) {
-        for (Product product : items) {
-            if (product.getId().equals(item)) {
-                items.remove(product);
-                break;
-            }
-        }
-        return sumItems();
-    }
-
-    public int sumItems() {
-        int result = 0;
-        for (Product product : items) {
-            result += product.getPrice();
-        }
-        return result;
     }
 
 

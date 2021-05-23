@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import ru.geekbrains.spring.boot.april.market.models.Product;
 
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class ProductDto {
     private String title;
 
     @Min(value = 1, message = "Min price = 1")
-    private int price;
+    private BigDecimal price;
 
     @NotEmpty(message = "Category  may not be blank")
     private String categoryTitle;
