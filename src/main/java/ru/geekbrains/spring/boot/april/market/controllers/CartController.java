@@ -27,11 +27,11 @@ public class CartController {
         return  new CartDto(cart);
     }
 
-    @GetMapping("/add")
-    public int add(@RequestParam Long id) {
-        log.info("add to cart product with id=" + id);
-        return cart.addItem(productService.findProductByID(id).get());
-    }
+//    @GetMapping("/add")
+//    public int add(@RequestParam Long id) {
+//        log.info("add to cart product with id=" + id);
+//        return cart.addItem(productService.findProductByID(id).get());
+//    }
 
     @GetMapping("/add/{productId}")
     public void addToCart(@PathVariable(name = "productId") Long id) {
@@ -43,14 +43,14 @@ public class CartController {
       cart.clear();
     }
 
-    @GetMapping("/delete")
-    public int deleteProductFromCart(@RequestParam Long id) {
-        log.info("delete from cart product with id=" + id);
-        return cart.deleteItem(id);
-    }
-
-    @GetMapping("/summ")
-    public int summCart() {
-        return cart.sumItems();
-    }
+//    @GetMapping("/delete")
+//    public int deleteProductFromCart(@RequestParam Long id) {
+//        log.info("delete from cart product with id=" + id);
+//        return cart.deleteItem(id);
+//    }
+//
+//    @GetMapping("/summ")
+//    public int summCart() {
+//        return cart.sumItems();
+//    }
 }

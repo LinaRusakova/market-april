@@ -11,7 +11,7 @@ CREATE TABLE products
 (
     id          bigserial PRIMARY KEY,
     title       VARCHAR(255),
-    price       number (8, 2),
+    price       numeric (8, 2),
     category_id bigint references categories (id)
 );
 INSERT INTO products (title, price, category_id)
