@@ -43,11 +43,11 @@ public class CartController {
       cart.clear();
     }
 
-//    @GetMapping("/delete")
-//    public int deleteProductFromCart(@RequestParam Long id) {
-//        log.info("delete from cart product with id=" + id);
-//        return cart.deleteItem(id);
-//    }
+    @GetMapping("/delete")
+    public void deleteProductFromCart(@RequestParam String title) {
+        log.info("delete from cart product with title=" + title);
+        cart.deleteItem(title);
+    }
 //
 //    @GetMapping("/summ")
 //    public int summCart() {

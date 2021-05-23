@@ -25,7 +25,7 @@ angular.module('app', []).controller('productController', function ($scope, $htt
 
             $scope.paginationArray = $scope.generatePagesIndexes(minPageIndex, maxPageIndex);
             console.log($scope.productsPage );
-            $scope.cartShow();
+            $scope.loadCart();
 
         });
     };
@@ -84,19 +84,19 @@ angular.module('app', []).controller('productController', function ($scope, $htt
     }
 
 
-    $scope.deleteItem = function (idProduct) {
+    $scope.deleteItem = function (productTitle) {
         $http({
             url: contextPath + "/api/v1/cart/delete",
             method: "GET",
             params: {
-                id: idProduct
+                title: productTitle
             }
         }).then(function (response) {
-            $scope.itemsSum = response.data;
-            $scope.cartShow();
+            $scope.loadCart();
             console.log("OK");
         })
     }
 
     $scope.loadPage(1);
+    $scope.loadCart();
 });

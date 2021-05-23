@@ -10,6 +10,24 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="index.js"></script>
+
+    <style type="text/css">
+        hr {
+            margin: 20px 0;
+            padding: 0;
+            height: 10px;
+            border: none;
+            box-sizing: border-box;
+            background-position: 50%;
+            color: orange;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="3px" height="3px" viewBox="0 0 3 3" fill="orange"><polygon points="0,0.5 0,1.5 1.5,3 2.5,3"></polygon><polygon points="2.5,0 1.5,0 3,1.5 3,0.5"></polygon></svg>');
+            background-size: 6px 6px;
+        }
+
+        h3 {
+            text-decoration: underline
+        }
+    </style>
 </head>
 
 <body>
@@ -31,7 +49,7 @@
             <td>{{p.price}}</td>
             <td>{{p.categoryTitle}}</td>
             <td>
-                <button class="btn btn-primary-outline" ng-click="addToCart(p.id)">Add to Cart</button>
+                <button class="btn btn-outline-primary" ng-click="addToCart(p.id)">Add to Cart</button>
             </td>
         </tr>
         </tbody>
@@ -54,56 +72,58 @@
         </ul>
     </nav>
 
-    <button class="btn btn-primary" ng-click="loadPage(1)">Refresh</button>
     <br><br>
-
+    <br>
+    <hr>
+    <h3>Добовить новый продукт в базу</h3>
     <form novalidate ng-submit="createNewProduct()">
         <div class="mb-3">
-            <label class="inputTitle" class="form-label">Title</label>
+            <label class="inputTitle" class="form-label">Название продукта</label>
             <input type="text" class="form-control" ng-model="newProduct.title" id="inputTitle"
                    aria-describedby="titleHelp">
         </div>
         <div class="mb-3">
-            <label for="inputPrice" class="form-label">Price</label>
+            <label for="inputPrice" class="form-label">Цена</label>
             <input type="number" class="form-control" ng-model="newProduct.price" id="inputPrice"
                    aria-describedby="titleHelp">
         </div>
-        <!--            <div class="mb-3">-->
-        <label for="inputCategory" class="form-label">Choose Category</label>
+
+        <label for="inputCategory" class="form-label">Выбрать категорию</label>
         <select class="form-select" ng-model="newProduct.categoryTitle" id="inputCategory"
                 aria-label="Default select example">
             <option value="Food">Food</option>
 
         </select>
-        <!--            </div>-->
+
 
         <br><br>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Добавить</button>
     </form>
-
+    <br>
     <hr>
 
-    <h1>Products Cart</h1>
+    <h3>Корзина</h3>
     <table cellpadding="5px">
         <thead>
         <th>Наименование продукта</th>
-        <th>Цена продукта</th>
-        <th>Категория продукта</th>
-        <th>Действия</th>
+        <th>Количество</th>
+        <th>Стоимость</th>
         </thead>
         <tbody>
-        <tr ng-repeat="i in cartDto.items">
+        <tr ng-repeat="oi in cartDto.items">
 
-            <td>{{i.title}}</td>
-            <td>{{i.price}}</td>
+            <td>{{oi.productTitle}}</td>
+            <td>{{oi.quantity}}</td>
+            <td>{{oi.pricePerProduct + " x " + oi.quantity + " = " + oi.price + " руб. "}}</td>
 
             <td>
-                <button class="btn btn-danger" ng-click="deleteItem(i.id)">Delete product</button>
+                <button class="btn btn-danger" ng-click="deleteItem(oi.productTitle)">Удалить</button>
             </td>
         </tr>
         <tr>
-            <td colspan="3"><b>The total cost of the Cart</b></td>
-            <td><b>{{cartDto.sum}}</b></td>
+            <td><b>Итого</b></td>
+            <td><b>{{cartDto.allItems}}</b></td>
+            <td ng-class="if cartDto.sum==null 'cartDto.sum=0'"><b>{{cartDto.sum + " руб. "}}</b></td>
         </tr>
         </tbody>
     </table>
