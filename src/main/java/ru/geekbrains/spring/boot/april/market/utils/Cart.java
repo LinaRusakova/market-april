@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.spring.boot.april.market.dtos.ProductDto;
 import ru.geekbrains.spring.boot.april.market.error_handling.ResourceNotFoundException;
+import ru.geekbrains.spring.boot.april.market.models.OrderItem;
 import ru.geekbrains.spring.boot.april.market.models.Product;
 import ru.geekbrains.spring.boot.april.market.services.ProductService;
 
@@ -20,32 +21,36 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Cart {
     private final ProductService productService;
-    private List<Product> items;
+    private List<OrderItem> items;
     private BigDecimal sum;
 
     public void addToCart(Long id) {
+        for (OrderItem orderItem: items) {
+            if (orderItem.getProduct().getId().equals(id)) {
+                orderItem.incrementQuantity();
+                recalculate();
+                return;
+            }
+        }
         Product product = productService.findProductByID(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exist with id: " + id + ". An error occurred while executing the procedure: adding an item to the cart. "));
-        items.add(product);
+        items.add(new OrderItem(product));
         recalculate();
     }
 
     private void recalculate() {
         sum = BigDecimal.ZERO;
-        for (Product product : items) {
-            sum = sum.add(product.getPrice());
+        for (OrderItem oi: items) {
+            sum = sum.add(oi.getPrice());
         }
     }
 
-    public void removeFromCart(Long id) {
-        items.removeIf(product -> product.getId().equals(id));
-    }
 
     public void clear() {
         items.clear();
         recalculate();
     }
 
-    public List<Product> getItems() {
+    public List<OrderItem> getItems() {
         return Collections.unmodifiableList(items);
     }
 

@@ -23,3 +23,14 @@ VALUES ('Bread', 25.43, 1),
        ('Milk', 30.33, 1),
        ('Milk Chocolate', 84.99, 1),
        ('Cacao', 80.11, 1);
+
+CREATE TABLE order_items
+(
+    id                bigserial PRIMARY KEY,
+    product_id        bigint references products (id),
+    quantity          int,
+    price_per_product numeric(8, 2) not null,
+    price             numeric(8, 2) not null,
+    created_at        timestamp default current_timestamp,
+    updated_at        timestamp default current_timestamp
+);

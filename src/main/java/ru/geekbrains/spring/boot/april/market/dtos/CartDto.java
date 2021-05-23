@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class CartDto {
 
-    private List<ProductDto> items;
+    private List<OrderItemDto> items;
     private BigDecimal sum;
 
     public CartDto(Cart cart) {
-        this.items = cart.getItems().stream().map(ProductDto::new).collect(Collectors.toList());
+        this.items = cart.getItems().stream().map(OrderItemDto::new).collect(Collectors.toList());
         this.sum = cart.getSum();
     }
 
