@@ -1,4 +1,4 @@
-angular.module('app', []).controller('productController', function ($scope, $http) {
+angular.module('app', ['ngStorage']).controller('productController', function ($scope, $http,  $location, $localStorage) {
     const contextPath = 'http://localhost:8189/market';
 
     $scope.itemsSum = 0;
@@ -109,6 +109,51 @@ angular.module('app', []).controller('productController', function ($scope, $htt
             console.log("OK");
         })
     }
+
+    $scope.tryToAuth = function () {
+        $http.post(contextPath + '/auth', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $localStorage.aprilMarketCurrentUser = {username: $scope.user.username, token: response.data.token};
+
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+                }
+            }, function errorCallback(response) {
+            });
+    };
+
+    $scope.tryToLogout = function () {
+        $scope.clearUser();
+    };
+
+    $scope.clearUser = function () {
+        delete $localStorage.aprilMarketCurrentUser;
+        $http.defaults.headers.common.Authorization = '';
+    };
+
+    $scope.isUserLoggedIn = function () {
+        if ($localStorage.aprilMarketCurrentUser) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.whoAmI = function () {
+        $http({
+            url: contextPath + '/api/v1/users/me',
+            method: 'GET'
+        }).then(function (response) {
+            alert(response.data.username + ' ' + response.data.email);
+        });
+    };
+
+    if ($localStorage.aprilMarketCurrentUser) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.aprilMarketCurrentUser.token;
+    }
+
 
     $scope.loadPage(1);
     $scope.loadCart();
