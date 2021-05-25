@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil {
-//    @Value("${jwt.secret}")
-    @Value("3ewtv34t33tftgyu5tm65e56u5m67wn456g346n45w7nm547erhrjsrtjws45y4h4r5") //todo remove this
+    @Value("${jwt.secret}")
     private String secret;
 
     public String generateToken(UserDetails userDetails) {

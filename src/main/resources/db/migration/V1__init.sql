@@ -71,3 +71,11 @@ CREATE TABLE order_items
     created_at        timestamp default current_timestamp,
     updated_at        timestamp default current_timestamp
 );
+
+CREATE TABLE users_orders
+(
+    user_id bigint not null references users (id),
+    order_id bigint not null references order_items (id),
+    primary key (user_id, order_id)
+);
+

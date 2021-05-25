@@ -32,6 +32,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
+    @OneToMany
+    @JoinTable(name = "users_orders",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id"))
+    private Collection<Order> orders;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

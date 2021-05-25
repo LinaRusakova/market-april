@@ -169,7 +169,8 @@
         </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary" ng-click="clearCart()">Clear Cart</button>
+    <br>
+    <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button> &nbsp;&nbsp;&nbsp;     <button ng-if="isUserLoggedIn()" class="btn btn-primary" ng-click="createOrder()">Создать заказ</button>
 </div>
 </body>
 </html>

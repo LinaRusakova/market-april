@@ -1,4 +1,4 @@
-angular.module('app', ['ngStorage']).controller('productController', function ($scope, $http,  $location, $localStorage) {
+angular.module('app', ['ngStorage']).controller('productController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8189/market';
 
     $scope.itemsSum = 0;
@@ -24,7 +24,7 @@ angular.module('app', ['ngStorage']).controller('productController', function ($
             }
 
             $scope.paginationArray = $scope.generatePagesIndexes(minPageIndex, maxPageIndex);
-            console.log($scope.productsPage );
+            console.log($scope.productsPage);
             $scope.loadCart();
 
         });
@@ -94,6 +94,14 @@ angular.module('app', ['ngStorage']).controller('productController', function ($
         }).then(function (response) {
             $scope.loadCart();
         })
+    }
+
+
+    $scope.createOrder = function () {
+        http.get(contextPath + '/api/v1/orders/create')
+            .then(function (response) {
+                $scope.cartDto = response.data;
+            });
     }
 
 
