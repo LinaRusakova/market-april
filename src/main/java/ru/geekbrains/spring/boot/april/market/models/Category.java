@@ -32,4 +32,6 @@ public class Category {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+
 }

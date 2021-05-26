@@ -19,28 +19,27 @@ public class OrderController {
     private final OrderService orderService;
 
 
-    @GetMapping()
-    public CartDto getCart() {
-        return  new CartDto(cart);
-    }
+//    @GetMapping()
+//    public CartDto getCart() {
+//        return  new CartDto(cart);
+//    }
 
     @GetMapping("/create")
     public void createOrder(Cart cart) {
-
-        orderService.create(cart);
+       orderService.createNewOrder(cart);
     }
-
-
-    @GetMapping("/clear")
-    public void clearOrder() {
-      cart.clear();
-    }
-
-    @GetMapping("/delete")
-    public void deleteProductFromCart(@RequestParam String title) {
-        log.info("delete from cart product with title=" + title);
-        cart.deleteItem(title);
-    }
+//
+//
+//    @GetMapping("/clear")
+//    public void clearOrder() {
+//      cart.clear();
+//    }
+//
+//    @GetMapping("/delete")
+//    public void deleteProductFromCart(@RequestParam String title) {
+//        log.info("delete from cart product with title=" + title);
+//        cart.deleteItem(title);
+//    }
 //
 //    @GetMapping("/summ")
 //    public int summCart() {
