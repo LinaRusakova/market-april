@@ -78,9 +78,10 @@ CREATE TABLE users_orders
     address       VARCHAR(255),
     contact_phone VARCHAR(255),
     order_sum     numeric(8, 2) not null,
+    user          bigint        not null references users (id),
+    orders        bigint        not null references order_items (id),
     created_at    timestamp default current_timestamp,
-    updated_at    timestamp default current_timestamp,
-    user_id       bigint not null references users (id),
-    items_id      bigint not null references order_items (id)
+    updated_at    timestamp default current_timestamp
+
 );
 

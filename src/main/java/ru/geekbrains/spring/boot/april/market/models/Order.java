@@ -15,7 +15,7 @@ import java.util.Collection;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "orders")
+@Table(name = "users_orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,17 +39,14 @@ public class Order {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinTable(name = "users",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private User user;
 
-    @OneToMany
-    @JoinTable(name = "order_items",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id"))
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private Collection<OrderItem> orderItems;
+
+
+    @ManyToOne(optional = false,cascade = CascadeType.ALL)
+    @JoinColumn(name = "orders")
+    private User user;
 
 
     public Order(Cart cart) {

@@ -96,14 +96,25 @@ angular.module('app', ['ngStorage']).controller('productController', function ($
         })
     }
 
-
-    $scope.createOrder = function () {
-        http.get(contextPath + '/api/v1/orders/create')
-            .then(function (response) {
-                $scope.cartDto = response.data;
-            });
-    }
-
+    /*
+* Order functions
+* */
+    $scope.createNewOrder = function (address, phone) {
+        $http({
+            url: contextPath + "/api/v1/orders/create",
+            method: "GET",
+            params: {
+                address: address,
+                phone: phone
+            }
+        }).then(function successCallBack(response) {
+            $scope.newOrder = null;
+            $scope.clearCart();
+        }, function errorCallback(response) {
+            console.log(response.data);
+            alert("Error!!! \n" + response.data.messages);
+        });
+    };
 
     $scope.deleteItem = function (productTitle) {
         $http({
