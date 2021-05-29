@@ -18,8 +18,8 @@ import java.util.Collection;
 @Table(name = "users_orders")
 public class Order {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
     private Long id;
 
     @Column(name = "address")
@@ -39,18 +39,15 @@ public class Order {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    private User user;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Collection<OrderItem> orderItems;
 
 
-    @ManyToOne(optional = false,cascade = CascadeType.ALL)
-    @JoinColumn(name = "orders")
-    private User user;
-
-
-    public Order(Cart cart) {
-        this.orderItems = cart.getItems();
-        this.orderSum = cart.getSum();
+    public void addItemsFromCart(Cart cart) {
+        this.setOrderItems(cart.getItems());
+        this.setOrderSum(cart.getSum());
     }
 }

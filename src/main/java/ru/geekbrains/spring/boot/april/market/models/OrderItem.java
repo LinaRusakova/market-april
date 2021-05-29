@@ -3,7 +3,6 @@ package ru.geekbrains.spring.boot.april.market.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -17,11 +16,11 @@ import java.time.LocalDateTime;
 public class OrderItem {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "prouct_id" )
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "quantity")
@@ -30,7 +29,7 @@ public class OrderItem {
     @Column(name = "price_per_product")
     private BigDecimal pricePerProduct;
 
-    @Column(name="price")
+    @Column(name = "price")
     private BigDecimal price;
 
 
@@ -42,21 +41,30 @@ public class OrderItem {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    @ManyToOne()
+    private Order order;
+
     public OrderItem(Product product) {
-        this.product=product;
-        this.quantity=1;
+        this.product = product;
+        this.quantity = 1;
         this.pricePerProduct = product.getPrice();
-        this.price=product.getPrice();
+        this.price = product.getPrice();
+
     }
 
     public void incrementQuantity() {
         this.quantity++;
-        this.price= this.pricePerProduct.multiply(new BigDecimal(this.quantity));
+        this.price = this.pricePerProduct.multiply(new BigDecimal(this.quantity));
     }
 
     public void decrementQuantity() {
         this.quantity--;
-        this.price= this.pricePerProduct.multiply(new BigDecimal(this.quantity));
+        this.price = this.pricePerProduct.multiply(new BigDecimal(this.quantity));
     }
 
 }

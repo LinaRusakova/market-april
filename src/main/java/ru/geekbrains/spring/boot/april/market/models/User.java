@@ -32,13 +32,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-//    @OneToMany
-//    @JoinTable(name = "users_orders",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "order_id"))
-//    private Collection<Order> orders;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user")
     private Collection<Order> orders;
 
 

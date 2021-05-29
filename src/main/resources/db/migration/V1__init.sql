@@ -60,28 +60,27 @@ VALUES ('Bread', 25.43, 1),
        ('Milk', 30.33, 1),
        ('Milk Chocolate', 84.99, 1),
        ('Cacao', 80.11, 1);
+-- CREATE TABLE users_orders
+-- (
+--     id      bigserial PRIMARY KEY,
+--     address       VARCHAR(255),
+--     contact_phone VARCHAR(255),
+--     order_sum     numeric(8, 2) not null,
+--     user_id       bigint        not null references users (id),
+--
+--     created_at    timestamp default current_timestamp,
+--     updated_at    timestamp default current_timestamp
+-- );
+--
+-- CREATE TABLE order_items(
+--     id                bigserial PRIMARY KEY,
+--     product_id        bigint references products (id),
+--     quantity          int,
+--     price_per_product numeric(8, 2) not null,
+--     price             numeric(8, 2) not null,
+--     created_at        timestamp default current_timestamp,
+--     updated_at        timestamp default current_timestamp,
+--     order_id          bigint not null references users_orders (id)
+-- );
 
-CREATE TABLE order_items
-(
-    id                bigserial PRIMARY KEY,
-    product_id        bigint references products (id),
-    quantity          int,
-    price_per_product numeric(8, 2) not null,
-    price             numeric(8, 2) not null,
-    created_at        timestamp default current_timestamp,
-    updated_at        timestamp default current_timestamp
-);
-
-CREATE TABLE users_orders
-(
-    order_id      bigserial PRIMARY KEY,
-    address       VARCHAR(255),
-    contact_phone VARCHAR(255),
-    order_sum     numeric(8, 2) not null,
-    user          bigint        not null references users (id),
-    orders        bigint        not null references order_items (id),
-    created_at    timestamp default current_timestamp,
-    updated_at    timestamp default current_timestamp
-
-);
 
