@@ -6,11 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.geekbrains.spring.boot.april.market.dtos.CartDto;
+import ru.geekbrains.spring.boot.april.market.dtos.ProductDto;
 import ru.geekbrains.spring.boot.april.market.models.Product;
 import ru.geekbrains.spring.boot.april.market.services.ProductService;
 import ru.geekbrains.spring.boot.april.market.utils.Cart;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -18,12 +21,14 @@ import java.util.List;
 @Slf4j
 public class CartController {
     private final Cart cart;
+//    private final CartDto cartDto;
     private final ProductService productService;
 
 
     @GetMapping()
-    public List<Product> getAllItems() {
-        return cart.getItems();
+    public List<ProductDto> getCartDto() {
+        CartDto cartDto=new CartDto(cart);
+        return cartDto.getCartDtoItems();
     }
 
     @GetMapping("/add")

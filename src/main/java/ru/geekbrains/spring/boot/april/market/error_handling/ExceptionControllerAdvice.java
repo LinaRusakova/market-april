@@ -1,5 +1,6 @@
 package ru.geekbrains.spring.boot.april.market.error_handling;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,8 +9,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionControllerAdvice {
     @ExceptionHandler
-    public ResponseEntity<?> handlerResourceNotFoundException(ResourceNotFoundException e) {
-        MarketError error = new MarketError((HttpStatus.NOT_FOUND.value()), e.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException e) {
+        MarketError err = new MarketError(HttpStatus.NOT_FOUND.value(), e.getMessage());
+        return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> handleInvalidDataException(InvalidDataException e) {
+        MarketError err = new MarketError(HttpStatus.BAD_REQUEST.value(), e.getMessages());
+        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
     }
 }
