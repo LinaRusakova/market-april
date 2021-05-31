@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class OrderItem {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -41,12 +41,8 @@ public class OrderItem {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
     @ManyToOne()
+    @JoinColumn(name = "order_id")
     private Order order;
 
     public OrderItem(Product product) {

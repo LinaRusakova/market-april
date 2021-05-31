@@ -111,35 +111,35 @@
     <br><br>
     <br>
     <hr>
-    <h3>Добовить новый продукт в базу</h3>
-    <form novalidate ng-submit="createNewProduct()">
-        <div class="mb-3">
-            <label class="inputTitle" class="form-label">Название продукта</label>
-            <input type="text" class="form-control" ng-model="newProduct.title" id="inputTitle"
-                   aria-describedby="titleHelp">
-        </div>
-        <div class="mb-3">
-            <label for="inputPrice" class="form-label">Цена</label>
-            <input type="number" class="form-control" ng-model="newProduct.price" id="inputPrice"
-                   aria-describedby="titleHelp">
-        </div>
+    <!--    <h3>Добовить новый продукт в базу</h3>-->
+    <!--    <form novalidate ng-submit="createNewProduct()">-->
+    <!--        <div class="mb-3">-->
+    <!--            <label class="inputTitle" class="form-label">Название продукта</label>-->
+    <!--            <input type="text" class="form-control" ng-model="newProduct.title" id="inputTitle"-->
+    <!--                   aria-describedby="titleHelp">-->
+    <!--        </div>-->
+    <!--        <div class="mb-3">-->
+    <!--            <label for="inputPrice" class="form-label">Цена</label>-->
+    <!--            <input type="number" class="form-control" ng-model="newProduct.price" id="inputPrice"-->
+    <!--                   aria-describedby="titleHelp">-->
+    <!--        </div>-->
 
-        <label for="inputCategory" class="form-label">Выбрать категорию</label>
-        <select class="form-select" ng-model="newProduct.categoryTitle" id="inputCategory"
-                aria-label="Default select example">
-            <option value="Food">Food</option>
+    <!--        <label for="inputCategory" class="form-label">Выбрать категорию</label>-->
+    <!--        <select class="form-select" ng-model="newProduct.categoryTitle" id="inputCategory"-->
+    <!--                aria-label="Default select example">-->
+    <!--            <option value="Food">Food</option>-->
 
-        </select>
+    <!--        </select>-->
 
 
-        <br><br>
-        <button type="submit" class="btn btn-primary">Добавить</button>
-    </form>
-    <br>
-    <hr>
+    <!--        <br><br>-->
+    <!--        <button type="submit" class="btn btn-primary">Добавить</button>-->
+    <!--    </form>-->
+    <!--    <br>-->
+    <!--    <hr>-->
 
     <h3>Корзина</h3>
-    <table cellpadding="5px">
+    <table ng-if="(cartDto.items.length>0)" cellpadding="5px">
         <thead>
         <th>Наименование продукта</th>
         <th>Количество</th>
@@ -165,31 +165,57 @@
         <tr>
             <td><b>Итого</b></td>
             <td><b>{{cartDto.allItems}}</b></td>
-            <td ng-class="(cartDto.sum==null) ? cartDto.sum=0:''"><b>{{cartDto.sum + " руб. "}}</b></td>
+            <td ng-class="(cartDto.items.length>0) ? cartDto.sum=0:''"><b>{{cartDto.sum + " руб. "}}</b></td>
         </tr>
         </tbody>
     </table>
+    <span ng-if="(cartDto.items.length==0)">Ваша корзина пуста</span>
     <br>
-    <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button> &nbsp;&nbsp;&nbsp;
 
+    <button ng-if="(cartDto.items.length>0)" class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
+    &nbsp;&nbsp;&nbsp;
+    <hr>
+    <h3>Оформление заказа</h3>
     <br>
     <form ng-if="isUserLoggedIn()" novalidate ng-submit="createNewOrder(address, phone)">
         <div class="mb-3">
-            <label class="inputTitle" class="form-label">Адрес доставки</label>
+            <label class="address" class="form-label">Адрес доставки</label>
             <input type="text" class="form-control" ng-model="address" id="address"
                    aria-describedby="titleHelp">
         </div>
         <div class="mb-3">
-            <label for="inputPrice" class="form-label">Контактный телефон</label>
+            <label for="phone" class="form-label">Контактный телефон</label>
             <input type="text" class="form-control" ng-model="phone" id="phone"
                    aria-describedby="titleHelp">
         </div>
 
-        <br><br>
-        <button   type="submit" class="btn btn-primary">Создать заказ</button>
+        <br>
+        <button ng-if="(cartDto.items.length>0)" type="submit" class="btn btn-primary">Создать заказ</button>
     </form>
+    <br>
 
-
+    <h3>Заказы</h3>
+    <table ng-if="(myOrders.length>0)" cellpadding="5px">
+        <thead>
+        <th>Id/th>
+        <th>Описание</th>
+        <th>Стоимость</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="order in myOrders">
+            <td>{{order.id}}</td>
+            <td>{{order.description}}</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><b>Итого</b></td>
+            <td><b>{{myOrders.length}}</b></td>
+            <td ><b></b></td>
+        </tr>
+        </tbody>
+    </table>
+    <span ng-if="(myOrders.length==0)">Вы пока не сделали ни одного заказа</span>
+    <br>
 </div>
 </body>
 </html>

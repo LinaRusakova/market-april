@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -33,7 +34,7 @@ public class User {
     private Collection<Role> roles;
 
     @OneToMany(mappedBy = "user")
-    private Collection<Order> orders;
+    private List<Order> orders;
 
 
     @CreationTimestamp

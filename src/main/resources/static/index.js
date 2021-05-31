@@ -101,20 +101,36 @@ angular.module('app', ['ngStorage']).controller('productController', function ($
 * */
     $scope.createNewOrder = function (address, phone) {
         $http({
-            url: contextPath + "/api/v1/orders/create",
-            method: "GET",
-            params: {
-                address: address,
-                phone: phone
-            }
+            url: contextPath + "/api/v1/orders",
+            method: "POST"
+            // params: {
+            //     address: address,
+            //     phone: phone
+            // }
         }).then(function successCallBack(response) {
             $scope.newOrder = null;
             $scope.clearCart();
+            alert("Ваш заказ сформирован");
+            $scope.showMyOrders();
         }, function errorCallback(response) {
             console.log(response.data);
             alert("Error!!! \n" + response.data.messages);
         });
     };
+
+    $scope.showMyOrders = function (address, phone) {
+        $http({
+            url: contextPath + "/api/v1/orders",
+            method: "GET"
+        }).then(function successCallBack(response) {
+            $scope.myOrdersSum=0;
+            $scope.myOrders = response.data;
+        }, function errorCallback(response) {
+            console.log(response.data);
+            alert("Error!!! \n" + response.data.messages);
+        });
+    };
+
 
     $scope.deleteItem = function (productTitle) {
         $http({
@@ -138,6 +154,7 @@ angular.module('app', ['ngStorage']).controller('productController', function ($
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+                    $scope.showMyOrders();
                 }
             }, function errorCallback(response) {
             });
@@ -171,6 +188,7 @@ angular.module('app', ['ngStorage']).controller('productController', function ($
 
     if ($localStorage.aprilMarketCurrentUser) {
         $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.aprilMarketCurrentUser.token;
+        $scope.showMyOrders();
     }
 
 
